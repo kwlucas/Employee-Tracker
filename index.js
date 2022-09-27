@@ -10,3 +10,19 @@ const rootPrompt = [
         choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Exit'],
     }
 ]
+
+const newDepartmentPrompt = [
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Enter a name for the new department.',
+        validate: (ans) => { //verify that a response was entered.
+            if (ans) {
+                return true;
+            }
+            else {
+                return 'Please enter a valid name.';
+            }
+        }
+    }
+]

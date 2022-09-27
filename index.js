@@ -68,3 +68,58 @@ const newRolePrompts = [
         },
     },
 ]
+
+const newEmployeePrompts = [
+    {
+        type: 'input',
+        name: 'firstName',
+        message: 'What is the new employee\'s first name?',
+        validate: (ans) => { //verify that a response was entered.
+            if (ans) {
+                return true;
+            }
+            else {
+                return 'Please enter a valid name.';
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'lastName',
+        message: 'What is the new employee\'s last name?',
+        validate: (ans) => { //verify that a response was entered.
+            if (ans) {
+                return true;
+            }
+            else {
+                return 'Please enter a valid name.';
+            }
+        }
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: "What is the new employee's role?",
+        choices: function () {
+            //get list of roles
+            let options = [''];
+            for (let i = 0; i < array.length; i++) {
+                options.push(array[i]);
+            }
+            return options;
+        },
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "Who is the new employee's manager?",
+        choices: function () {
+            //get list of employee's
+            let options = [''];
+            for (let i = 0; i < array.length; i++) {
+                options.push(array[i]);
+            }
+            return options;
+        },
+    },
+]

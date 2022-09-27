@@ -26,3 +26,45 @@ const newDepartmentPrompt = [
         }
     }
 ]
+
+const newRolePrompts = [
+    {
+        type: 'input',
+        name: 'title',
+        message: 'Enter a title for the new role.',
+        validate: (ans) => { //verify that a response was entered.
+            if (ans) {
+                return true;
+            }
+            else {
+                return 'Please enter a valid title.';
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'Enter a salary for the new role.',
+        validate: (ans) => { //verify that a response was entered.
+            if (ans && !/[\D]/g.test(ans)) {
+                return true;
+            }
+            else {
+                return 'Please enter a valid numerical value.';
+            }
+        }
+    },
+    {
+        type: 'list',
+        name: 'department',
+        message: "What departments is the new role in?",
+        choices: function () {
+            //get list of departments
+            let options = [''];
+            for (let i = 0; i < array.length; i++) {
+                options.push(array[i]);
+            }
+            return options;
+        },
+    },
+]

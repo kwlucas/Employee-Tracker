@@ -114,7 +114,36 @@ const newEmployeePrompts = [
         name: 'manager',
         message: "Who is the new employee's manager?",
         choices: function () {
-            //get list of employee's
+            //get list of employees
+            let options = [''];
+            for (let i = 0; i < array.length; i++) {
+                options.push(array[i]);
+            }
+            return options;
+        },
+    },
+]
+
+const updateRolePrompts = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: "Select an employee to update.",
+        choices: function () {
+            //get list of employees
+            let options = [''];
+            for (let i = 0; i < array.length; i++) {
+                options.push(array[i]);
+            }
+            return options;
+        },
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: "What is the employee's new role?",
+        choices: function () {
+            //get list of roles
             let options = [''];
             for (let i = 0; i < array.length; i++) {
                 options.push(array[i]);

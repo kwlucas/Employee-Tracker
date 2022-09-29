@@ -152,3 +152,37 @@ const updateRolePrompts = [
         },
     },
 ]
+//[, , , , , , , 'Exit'],
+
+async function launch() {
+    const ans = await inquirer.prompt(rootPrompt);
+
+    switch (ans) {
+        case 'View all departments':
+
+            break;
+        case 'View all roles':
+
+            break;
+        case 'View all employees':
+
+            break;
+        case 'Add a department':
+
+            break;
+        case 'Add a role':
+
+            break;
+        case 'Add an employee':
+
+            break;
+        case 'Add an employee':
+
+            break;
+        case 'Update an employee role':
+
+            break;
+        default:
+            break;
+    }
+}

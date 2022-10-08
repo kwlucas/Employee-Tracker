@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require("inquirer");
 const cTable = require('console.table');
+const con = require("./db/connection");
 
 const rootPrompt = [
     {
@@ -152,7 +153,6 @@ const updateRolePrompts = [
         },
     },
 ]
-//[, , , , , , , 'Exit'],
 
 async function launch() {
     const ans = await inquirer.prompt(rootPrompt);
@@ -184,4 +184,21 @@ async function launch() {
             process.exitCode = 0;
             break;
     }
+}
+
+async function viewAll(table) {
+    switch (table) {
+        case 'departments':
+            
+
+            break;
+        case 'roles':
+
+            break;
+
+        case 'employees':
+
+            break;
+    }
+
 }

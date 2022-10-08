@@ -1,8 +1,8 @@
 -- Write your schema here --
-DROP DATABASE IF EXISTS product_db;
-CREATE DATABASE product_db;
+DROP DATABASE IF EXISTS employee_db;
+CREATE DATABASE employee_db;
 
-USE product_db;
+USE employee_db;
 
 CREATE TABLE categories (
     id INT NOT NULL AUTO_INCREMENT,
@@ -10,9 +10,9 @@ CREATE TABLE categories (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE products (
+CREATE TABLE employees (
   id INT NOT NULL AUTO_INCREMENT,
-  product_name VARCHAR(30) NOT NULL,
+  employee_name VARCHAR(30) NOT NULL,
   category_name VARCHAR(100) NOT NULL,
 --   category_id INT NOT NULL,
   price INT NOT NULL,

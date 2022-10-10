@@ -159,13 +159,13 @@ async function launch() {
 
     switch (ans) {
         case 'View all departments':
-            await viewAll('departments');
+            await viewAllDepartments();
             break;
         case 'View all roles':
-            await viewAll('roles');
+            await viewAllRoles();
             break;
         case 'View all employees':
-            await viewAll('employees');
+            await viewAllEmployees();
             break;
         case 'Add a department':
             await addDepartment();
@@ -186,19 +186,17 @@ async function launch() {
     }
 }
 
-async function viewAll(table) {
-    switch (table) {
-        case 'departments':
-            
+async function viewAllDepartments() {
+    const results = await con.promise().query('SELECT department.* FROM department');
+    console.table(results);
+}
 
-            break;
-        case 'roles':
+async function viewAllRoles() {
+    const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name FROM role JOIN departments ON role.department_id = department.id');
+    console.table(results);
+}
 
-            break;
-
-        case 'employees':
-
-            break;
-    }
-
+async function viewAllEmployees() {
+    const results = await con.promise().query('SELECT employee.id employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
+    console.table(results);
 }

@@ -187,12 +187,13 @@ async function launch() {
 }
 
 async function viewAllDepartments() {
-    const results = await con.promise().query('SELECT departments.* FROM departments');
+    const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results);
 }
 
 async function viewAllRoles() {
-
+    const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name FROM role JOIN departments ON role.department_id = department.id');
+    console.table(results);
 }
 
 async function viewAllEmployees() {

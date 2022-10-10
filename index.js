@@ -124,12 +124,17 @@ const newEmployeePrompts = [
         type: 'list',
         name: 'manager',
         message: "Who is the new employee's manager?",
-        choices: function () {
+        choices: async function () {
             //get list of employees
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function(employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },

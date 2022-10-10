@@ -59,12 +59,17 @@ const newRolePrompts = [
         type: 'list',
         name: 'department',
         message: "What departments is the new role in?",
-        choices: function () {
+        choices: async function () {
             //get list of departments
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            await departments.forEach(async function(department) {
+                let option = {
+                    name: department.name,
+                    value: department.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },

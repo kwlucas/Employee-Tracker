@@ -106,12 +106,17 @@ const newEmployeePrompts = [
         type: 'list',
         name: 'role',
         message: "What is the new employee's role?",
-        choices: function () {
+        choices: async function () {
             //get list of roles
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const roles = await con.promise().query('SELECT role.id, role.title FROM role');
+            await roles.forEach(async function(role) {
+                let option = {
+                    name: role.title,
+                    value: role.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },

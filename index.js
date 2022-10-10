@@ -187,7 +187,8 @@ async function launch() {
 }
 
 async function viewAllDepartments() {
-
+    const results = await con.promise().query('SELECT departments.* FROM departments');
+    console.table(results);
 }
 
 async function viewAllRoles() {

@@ -212,5 +212,10 @@ async function addRole() {
     const ans = await inquirer.prompt(newRolePrompts);
     console.log(ans);
     await con.promise().query('INSERT INTO (title, salary, department_id) VALUES (?)', (ans.title, ans.salary, ans.departmentId));
+}
 
+async function addEmployee() {
+    const ans = await inquirer.prompt(newEmployeePrompts);
+    console.log(ans);
+    await con.promise().query('INSERT INTO (first_name, last_name, role_id, manager_id) VALUES (?)', (ans.firstName, ans.lastName, ans.roleId, ans.managerId));
 }

@@ -200,3 +200,10 @@ async function viewAllEmployees() {
     const results = await con.promise().query('SELECT employee.id employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
     console.table(results);
 }
+
+async function addDepartment() {
+    const ans = await inquirer.prompt(newDepartmentPrompt);
+    console.log(ans);
+    await con.promise().query('INSERT INTO (name) VALUES (?)', ans.name );
+
+}

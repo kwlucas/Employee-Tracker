@@ -207,3 +207,10 @@ async function addDepartment() {
     await con.promise().query('INSERT INTO (name) VALUES (?)', ans.name );
 
 }
+
+async function addRole() {
+    const ans = await inquirer.prompt(newRolePrompts);
+    console.log(ans);
+    await con.promise().query('INSERT INTO (title, salary, department_id) VALUES (?)', (ans.title, ans.salary, ans.departmentId));
+
+}

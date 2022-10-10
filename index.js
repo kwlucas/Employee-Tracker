@@ -159,13 +159,13 @@ async function launch() {
 
     switch (ans) {
         case 'View all departments':
-            await viewAll('departments');
+            await viewAllDepartments();
             break;
         case 'View all roles':
-            await viewAll('roles');
+            await viewAllRoles();
             break;
         case 'View all employees':
-            await viewAll('employees');
+            await viewAllEmployees();
             break;
         case 'Add a department':
             await addDepartment();
@@ -186,19 +186,14 @@ async function launch() {
     }
 }
 
-async function viewAll(table) {
-    switch (table) {
-        case 'departments':
-            
+async function viewAllDepartments() {
 
-            break;
-        case 'roles':
+}
 
-            break;
+async function viewAllRoles() {
 
-        case 'employees':
+}
 
-            break;
-    }
+async function viewAllEmployees() {
 
 }

@@ -59,12 +59,17 @@ const newRolePrompts = [
         type: 'list',
         name: 'department',
         message: "What departments is the new role in?",
-        choices: function () {
+        choices: async function () {
             //get list of departments
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            await departments.forEach(async function(department) {
+                let option = {
+                    name: department.name,
+                    value: department.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },
@@ -101,12 +106,17 @@ const newEmployeePrompts = [
         type: 'list',
         name: 'role',
         message: "What is the new employee's role?",
-        choices: function () {
+        choices: async function () {
             //get list of roles
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const roles = await con.promise().query('SELECT role.id, role.title FROM role');
+            await roles.forEach(async function(role) {
+                let option = {
+                    name: role.title,
+                    value: role.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },
@@ -114,12 +124,17 @@ const newEmployeePrompts = [
         type: 'list',
         name: 'manager',
         message: "Who is the new employee's manager?",
-        choices: function () {
+        choices: async function () {
             //get list of employees
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function(employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },
@@ -130,12 +145,17 @@ const updateRolePrompts = [
         type: 'list',
         name: 'employee',
         message: "Select an employee to update.",
-        choices: function () {
+        choices: async function () {
             //get list of employees
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function(employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },
@@ -143,12 +163,17 @@ const updateRolePrompts = [
         type: 'list',
         name: 'role',
         message: "What is the employee's new role?",
-        choices: function () {
+        choices: async function () {
             //get list of roles
             let options = [''];
-            for (let i = 0; i < array.length; i++) {
-                options.push(array[i]);
-            }
+            const roles = await con.promise().query('SELECT role.id, role.title FROM role');
+            await roles.forEach(async function(role) {
+                let option = {
+                    name: role.title,
+                    value: role.id
+                }
+                options.push(option);
+            })
             return options;
         },
     },
@@ -199,4 +224,23 @@ async function viewAllRoles() {
 async function viewAllEmployees() {
     const results = await con.promise().query('SELECT employee.id employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
     console.table(results);
+}
+
+async function addDepartment() {
+    const ans = await inquirer.prompt(newDepartmentPrompt);
+    console.log(ans);
+    await con.promise().query('INSERT INTO department (name) VALUES (?)', [ans.name] );
+
+}
+
+async function addRole() {
+    const ans = await inquirer.prompt(newRolePrompts);
+    console.log(ans);
+    await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.departmentId]);
+}
+
+async function addEmployee() {
+    const ans = await inquirer.prompt(newEmployeePrompts);
+    console.log(ans);
+    await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.roleId, ans.managerId]);
 }

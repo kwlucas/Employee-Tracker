@@ -179,6 +179,45 @@ const updateRolePrompts = [
     },
 ]
 
+const updateManagerPrompts = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: "Select an employee to update.",
+        choices: async function () {
+            //get list of employees
+            let options = [''];
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function(employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "Who is the employee's new manager?",
+        choices: async function () {
+            //get list of employees
+            let options = [''];
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function(employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    },
+]
+
 async function launch() {
     const ans = await inquirer.prompt(rootPrompt);
 
@@ -252,7 +291,7 @@ async function updateRole() {
 }
 
 async function updateManager() {
-    const ans = await inquirer.prompt(updateRolePrompts);
+    const ans = await inquirer.prompt(updateManagerPrompts);
     console.log(ans);
     await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee] );
 }

@@ -250,3 +250,9 @@ async function updateRole() {
     console.log(ans);
     await con.promise().query('UPDATE employee SET role_id = ?  WHERE id = ?', [ans.role, ans.employee] );
 }
+
+async function updateManager() {
+    const ans = await inquirer.prompt(updateRolePrompts);
+    console.log(ans);
+    await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee] );
+}

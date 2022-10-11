@@ -19,14 +19,14 @@ CREATE TABLE role (
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
-CREATE TABLE employees (
+CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT,
-  employee_name VARCHAR(30) NOT NULL,
-  category_name VARCHAR(100) NOT NULL,
---   category_id INT NOT NULL,
-  price INT NOT NULL,
-  in_stock BOOLEAN DEFAULT false NOT NULL,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  role_id INT,
   PRIMARY KEY (id),
+  FOREIGN KEY (role_id) REFERENCES role(id),
+  FOREIGN KEY (manager_id) REFERENCES employee(id)
 --   FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 

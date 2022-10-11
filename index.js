@@ -218,42 +218,6 @@ const updateManagerPrompts = [
     },
 ]
 
-async function launch() {
-    const ans = await inquirer.prompt(rootPrompt);
-
-    switch (ans) {
-        case 'View all departments':
-            await viewAllDepartments();
-            break;
-        case 'View all roles':
-            await viewAllRoles();
-            break;
-        case 'View all employees':
-            await viewAllEmployees();
-            break;
-        case 'Add a department':
-            await addDepartment();
-            break;
-        case 'Add a role':
-            await addRole();
-            break;
-        case 'Add an employee':
-            await addEmployee();
-            break;
-        case 'Update an employee role':
-            await updateRole();
-            break;
-        case 'Update an employee manager':
-            await updateManager();
-            break;
-        default:
-            console.log('Goodbye.');
-            process.exitCode = 0;
-            break;
-    }
-    return launch();
-}
-
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results);
@@ -299,3 +263,41 @@ async function updateManager() {
     console.log(ans);
     await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee]);
 }
+
+async function launch() {
+    const ans = await inquirer.prompt(rootPrompt);
+
+    switch (ans) {
+        case 'View all departments':
+            await viewAllDepartments();
+            break;
+        case 'View all roles':
+            await viewAllRoles();
+            break;
+        case 'View all employees':
+            await viewAllEmployees();
+            break;
+        case 'Add a department':
+            await addDepartment();
+            break;
+        case 'Add a role':
+            await addRole();
+            break;
+        case 'Add an employee':
+            await addEmployee();
+            break;
+        case 'Update an employee role':
+            await updateRole();
+            break;
+        case 'Update an employee manager':
+            await updateManager();
+            break;
+        default:
+            console.log('Goodbye.');
+            process.exitCode = 0;
+            break;
+    }
+    return launch();
+}
+
+launch();

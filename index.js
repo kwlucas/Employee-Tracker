@@ -8,7 +8,7 @@ const rootPrompt = [
         type: 'list',
         name: 'rootSelection',
         message: "Select an action.",
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Exit'],
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Exit'],
     }
 ]
 
@@ -63,7 +63,7 @@ const newRolePrompts = [
             //get list of departments
             let options = [''];
             const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
-            await departments.forEach(async function(department) {
+            await departments.forEach(async function (department) {
                 let option = {
                     name: department.name,
                     value: department.id
@@ -110,7 +110,7 @@ const newEmployeePrompts = [
             //get list of roles
             let options = [''];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function(role) {
+            await roles.forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -128,7 +128,7 @@ const newEmployeePrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function(employee) {
+            await employees.forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -149,7 +149,7 @@ const updateRolePrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function(employee) {
+            await employees.forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -167,7 +167,7 @@ const updateRolePrompts = [
             //get list of roles
             let options = [''];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function(role) {
+            await roles.forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -188,7 +188,7 @@ const updateManagerPrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function(employee) {
+            await employees.forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -206,7 +206,7 @@ const updateManagerPrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function(employee) {
+            await employees.forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -243,6 +243,9 @@ async function launch() {
         case 'Update an employee role':
             await updateRole();
             break;
+        case 'Update an employee manager':
+            await updateManager();
+            break;
         default:
             console.log('Goodbye.');
             process.exitCode = 0;
@@ -268,7 +271,7 @@ async function viewAllEmployees() {
 async function addDepartment() {
     const ans = await inquirer.prompt(newDepartmentPrompt);
     console.log(ans);
-    await con.promise().query('INSERT INTO department (name) VALUES (?)', [ans.name] );
+    await con.promise().query('INSERT INTO department (name) VALUES (?)', [ans.name]);
 
 }
 
@@ -287,11 +290,11 @@ async function addEmployee() {
 async function updateRole() {
     const ans = await inquirer.prompt(updateRolePrompts);
     console.log(ans);
-    await con.promise().query('UPDATE employee SET role_id = ?  WHERE id = ?', [ans.role, ans.employee] );
+    await con.promise().query('UPDATE employee SET role_id = ?  WHERE id = ?', [ans.role, ans.employee]);
 }
 
 async function updateManager() {
     const ans = await inquirer.prompt(updateManagerPrompts);
     console.log(ans);
-    await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee] );
+    await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee]);
 }

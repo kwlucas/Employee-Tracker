@@ -251,6 +251,7 @@ async function launch() {
             process.exitCode = 0;
             break;
     }
+    return launch();
 }
 
 async function viewAllDepartments() {

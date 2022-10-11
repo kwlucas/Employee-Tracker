@@ -244,3 +244,9 @@ async function addEmployee() {
     console.log(ans);
     await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.roleId, ans.managerId]);
 }
+
+async function updateRole() {
+    const ans = await inquirer.prompt(updateRolePrompts);
+    console.log(ans);
+    await con.promise().query('UPDATE employee SET role_id = ?  WHERE id = ?', [ans.role, ans.employee] );
+}

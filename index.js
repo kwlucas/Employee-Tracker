@@ -330,13 +330,19 @@ async function updateManager() {
 async function removeDepartment() {
     const ans = await inquirer.prompt(removeDepartmentPrompt);
     console.log(ans);
-    await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department])
+    await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department]);
 }
 
 async function removeRole() {
     const ans = await inquirer.prompt(removeRolePrompt);
     console.log(ans);
-    await con.promise().query('DELETE FROM role WHERE id = ?', [ans.role])
+    await con.promise().query('DELETE FROM role WHERE id = ?', [ans.role]);
+}
+
+async function removeEmployee() {
+    const ans = await inquirer.prompt(removeEmployeePrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM employee WHERE id = ?', [ans.employee]);
 }
 
 async function launch() {

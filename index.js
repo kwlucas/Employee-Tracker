@@ -333,6 +333,12 @@ async function removeDepartment() {
     await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department])
 }
 
+async function removeRole() {
+    const ans = await inquirer.prompt(removeRolePrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM role WHERE id = ?', [ans.role])
+}
+
 async function launch() {
     const ans = await inquirer.prompt(rootPrompt);
 

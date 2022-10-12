@@ -8,7 +8,7 @@ const rootPrompt = [
         type: 'list',
         name: 'rootSelection',
         message: "Select an action.",
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Exit'],
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Remove a department', 'Remove a role', 'Remove an employee', 'Exit'],
     }
 ]
 
@@ -218,6 +218,69 @@ const updateManagerPrompts = [
     },
 ]
 
+const removeDepartmentPrompt = [
+    {
+        type: 'list',
+        name: 'department',
+        message: "Select a department to remove.",
+        choices: async function () {
+            //get list of departments
+            let options = [''];
+            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            await departments.forEach(async function (department) {
+                let option = {
+                    name: department.name,
+                    value: department.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    },
+]
+
+const removeRolePrompt = [
+    {
+        type: 'list',
+        name: 'role',
+        message: "Select a role to remove.",
+        choices: async function () {
+            //get list of roles
+            let options = [''];
+            const roles = await con.promise().query('SELECT role.id, role.title FROM role');
+            await roles.forEach(async function (role) {
+                let option = {
+                    name: role.title,
+                    value: role.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    }
+]
+
+const removeEmployeePrompt = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: "Select an employee to remove.",
+        choices: async function () {
+            //get list of employees
+            let options = [''];
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function (employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    }
+]
+
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results);
@@ -264,6 +327,24 @@ async function updateManager() {
     await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee]);
 }
 
+async function removeDepartment() {
+    const ans = await inquirer.prompt(removeDepartmentPrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department]);
+}
+
+async function removeRole() {
+    const ans = await inquirer.prompt(removeRolePrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM role WHERE id = ?', [ans.role]);
+}
+
+async function removeEmployee() {
+    const ans = await inquirer.prompt(removeEmployeePrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM employee WHERE id = ?', [ans.employee]);
+}
+
 async function launch() {
     const ans = await inquirer.prompt(rootPrompt);
 
@@ -291,6 +372,15 @@ async function launch() {
             break;
         case 'Update an employee manager':
             await updateManager();
+            break;
+        case 'Remove a department':
+            await removeDepartment();
+            break;
+        case 'Remove a role':
+            await removeRole();
+            break;
+        case 'Remove an employee':
+            await removeEmployee();
             break;
         default:
             console.log('Goodbye.');

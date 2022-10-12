@@ -327,6 +327,12 @@ async function updateManager() {
     await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee]);
 }
 
+async function removeDepartment() {
+    const ans = await inquirer.prompt(removeDepartmentPrompt);
+    console.log(ans);
+    await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department])
+}
+
 async function launch() {
     const ans = await inquirer.prompt(rootPrompt);
 

@@ -8,7 +8,7 @@ const rootPrompt = [
         type: 'list',
         name: 'rootSelection',
         message: "Select an action.",
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Exit'],
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Remove a department', 'Remove a role', 'Remove an employee', 'Exit'],
     }
 ]
 
@@ -291,6 +291,15 @@ async function launch() {
             break;
         case 'Update an employee manager':
             await updateManager();
+            break;
+        case 'Remove a department':
+            await removeDepartment();
+            break;
+        case 'Remove a role':
+            await removeRole();
+            break;
+        case 'Remove an employee':
+            await removeEmployee();
             break;
         default:
             console.log('Goodbye.');

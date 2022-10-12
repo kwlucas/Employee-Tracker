@@ -218,6 +218,27 @@ const updateManagerPrompts = [
     },
 ]
 
+const removeEmployeePrompt = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: "Select an employee to remove.",
+        choices: async function () {
+            //get list of employees
+            let options = [''];
+            const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
+            await employees.forEach(async function (employee) {
+                let option = {
+                    name: employee.name,
+                    value: employee.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    }
+]
+
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results);

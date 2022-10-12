@@ -218,6 +218,27 @@ const updateManagerPrompts = [
     },
 ]
 
+const removeRolePrompt = [
+    {
+        type: 'list',
+        name: 'role',
+        message: "Select a role to remove.",
+        choices: async function () {
+            //get list of roles
+            let options = [''];
+            const roles = await con.promise().query('SELECT role.id, role.title FROM role');
+            await roles.forEach(async function (role) {
+                let option = {
+                    name: role.title,
+                    value: role.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    }
+]
+
 const removeEmployeePrompt = [
     {
         type: 'list',

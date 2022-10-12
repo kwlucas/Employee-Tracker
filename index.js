@@ -218,6 +218,27 @@ const updateManagerPrompts = [
     },
 ]
 
+const removeDepartmentPrompt = [
+    {
+        type: 'list',
+        name: 'department',
+        message: "Select a department to remove.",
+        choices: async function () {
+            //get list of departments
+            let options = [''];
+            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            await departments.forEach(async function (department) {
+                let option = {
+                    name: department.name,
+                    value: department.id
+                }
+                options.push(option);
+            })
+            return options;
+        },
+    },
+]
+
 const removeRolePrompt = [
     {
         type: 'list',

@@ -24,6 +24,13 @@ VALUES
 INSERT INTO employee
     (first_name, last_name, role_id, manager_id)
 VALUES
-    ('First', 'Last', 1, 1),
-    ('First', 'Last', 3, 1),
-    ('First', 'Last', 2, 2);
+    ('Ahsoka', 'Tano', 1, 2),
+    ('Anakin', 'Skywalker', 2, 9),
+    ('Obi-Wan', 'Kenobi', 3, NULL),
+    ('Gial', 'Ackbar', 4, NULL),
+    ('Cody', 'CC-2224', 5, 3),
+    ('Rex', 'CT-7567', 4, 2),
+    ('Wullf', 'Yularen', 6, 10),
+    ('Jar Jar', 'Binks', 7, 10),
+    ('Padme', 'Amidala', 8, NULL),
+    ('Sheev', 'Palpatine', 9, NULL);

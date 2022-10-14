@@ -398,6 +398,7 @@ async function launch() {
             return;
             break;
     }
+    await inquirer.prompt(continuePrompt);
     await launch();
     return;
 }

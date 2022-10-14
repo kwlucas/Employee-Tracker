@@ -64,7 +64,7 @@ const newRolePrompts = [
             //get list of departments
             let options = [''];
             const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
-            await departments.forEach(async function (department) {
+            await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,
                     value: department.id
@@ -111,7 +111,7 @@ const newEmployeePrompts = [
             //get list of roles
             let options = [''];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -129,7 +129,7 @@ const newEmployeePrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -150,7 +150,7 @@ const updateRolePrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -168,7 +168,7 @@ const updateRolePrompts = [
             //get list of roles
             let options = [''];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -189,7 +189,7 @@ const updateManagerPrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -207,7 +207,7 @@ const updateManagerPrompts = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -228,7 +228,7 @@ const removeDepartmentPrompt = [
             //get list of departments
             let options = [''];
             const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
-            await departments.forEach(async function (department) {
+            await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,
                     value: department.id
@@ -249,7 +249,7 @@ const removeRolePrompt = [
             //get list of roles
             let options = [''];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -270,7 +270,7 @@ const removeEmployeePrompt = [
             //get list of employees
             let options = [''];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id

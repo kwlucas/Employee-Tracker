@@ -314,6 +314,11 @@ async function viewEmployeesByDepartment() {
     console.table(results[0]);
 }
 
+async function viewEmployeesByManager() {
+    const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY manager');
+    console.table(results[0]);
+}
+
 async function addDepartment() {
     const ans = await inquirer.prompt(newDepartmentPrompt);
     console.log(ans);

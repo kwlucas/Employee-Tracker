@@ -387,7 +387,8 @@ async function launch() {
             process.exitCode = 0;
             break;
     }
-    return launch();
+    await launch();
+    return;
 }
 
 launch();

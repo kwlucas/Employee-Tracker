@@ -286,6 +286,16 @@ const removeEmployeePrompt = [
     }
 ]
 
+const sortEmployeesByPrompt = [
+    {
+        type: 'list',
+        name: 'sortBy',
+        message: 'View employees by...',
+        choices: ['ID (Default)', 'Department', 'Manager'],
+        default: 0
+    },
+]
+
 const continuePrompt = [
     {
         type: 'input',

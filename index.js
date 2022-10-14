@@ -1,6 +1,6 @@
-const mysql = require('mysql2');
 const inquirer = require("inquirer");
-const cTable = require('console.table');
+//const cTable = require('console.table');
+require('console.table');
 const con = require("./db/connection");
 
 const rootPrompt = [
@@ -9,6 +9,7 @@ const rootPrompt = [
         name: 'rootSelection',
         message: "Select an action.",
         choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Remove a department', 'Remove a role', 'Remove an employee', 'Exit'],
+        default: 0
     }
 ]
 
@@ -58,12 +59,12 @@ const newRolePrompts = [
     {
         type: 'list',
         name: 'department',
-        message: "What departments is the new role in?",
+        message: "What department is the new role in?",
         choices: async function () {
             //get list of departments
-            let options = [''];
-            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
-            await departments.forEach(async function (department) {
+            let options = [];
+            const departments = await con.promise().query('SELECT department.id, department.name FROM department');
+            await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,
                     value: department.id
@@ -108,15 +109,16 @@ const newEmployeePrompts = [
         message: "What is the new employee's role?",
         choices: async function () {
             //get list of roles
-            let options = [''];
+            let options = [];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -126,15 +128,16 @@ const newEmployeePrompts = [
         message: "Who is the new employee's manager?",
         choices: async function () {
             //get list of employees
-            let options = [''];
+            let options = [];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -147,9 +150,9 @@ const updateRolePrompts = [
         message: "Select an employee to update.",
         choices: async function () {
             //get list of employees
-            let options = [''];
+            let options = [];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -165,15 +168,16 @@ const updateRolePrompts = [
         message: "What is the employee's new role?",
         choices: async function () {
             //get list of roles
-            let options = [''];
+            let options = [];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -186,9 +190,9 @@ const updateManagerPrompts = [
         message: "Select an employee to update.",
         choices: async function () {
             //get list of employees
-            let options = [''];
+            let options = [];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -204,15 +208,16 @@ const updateManagerPrompts = [
         message: "Who is the employee's new manager?",
         choices: async function () {
             //get list of employees
-            let options = [''];
+            let options = [];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -225,9 +230,9 @@ const removeDepartmentPrompt = [
         message: "Select a department to remove.",
         choices: async function () {
             //get list of departments
-            let options = [''];
-            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
-            await departments.forEach(async function (department) {
+            let options = [];
+            const departments = await con.promise().query('SELECT department.id, department.name FROM department');
+            await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,
                     value: department.id
@@ -246,9 +251,9 @@ const removeRolePrompt = [
         message: "Select a role to remove.",
         choices: async function () {
             //get list of roles
-            let options = [''];
+            let options = [];
             const roles = await con.promise().query('SELECT role.id, role.title FROM role');
-            await roles.forEach(async function (role) {
+            await roles[0].forEach(async function (role) {
                 let option = {
                     name: role.title,
                     value: role.id
@@ -267,9 +272,9 @@ const removeEmployeePrompt = [
         message: "Select an employee to remove.",
         choices: async function () {
             //get list of employees
-            let options = [''];
+            let options = [];
             const employees = await con.promise().query('SELECT employee.id, CONCAT(employee.first_name, " ", employee.last_name ) AS name FROM employee');
-            await employees.forEach(async function (employee) {
+            await employees[0].forEach(async function (employee) {
                 let option = {
                     name: employee.name,
                     value: employee.id
@@ -281,19 +286,47 @@ const removeEmployeePrompt = [
     }
 ]
 
+const sortEmployeesByPrompt = [
+    {
+        type: 'list',
+        name: 'sortBy',
+        message: 'View employees by...',
+        choices: ['ID (Default)', 'Department', 'Manager'],
+        default: 0
+    },
+]
+
+const continuePrompt = [
+    {
+        type: 'input',
+        name: 'continue',
+        message: 'Press enter to continue.',
+    },
+]
+
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
-    console.table(results);
+    console.table(results[0]);
 }
 
 async function viewAllRoles() {
-    const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name FROM role JOIN departments ON role.department_id = department.id');
-    console.table(results);
+    const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id');
+    console.table(results[0]);
 }
 
 async function viewAllEmployees() {
-    const results = await con.promise().query('SELECT employee.id employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
-    console.table(results);
+    const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id');
+    console.table(results[0]);
+}
+
+async function viewEmployeesByDepartment() {
+    const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY department');
+    console.table(results[0]);
+}
+
+async function viewEmployeesByManager() {
+    const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY manager');
+    console.table(results[0]);
 }
 
 async function addDepartment() {
@@ -306,13 +339,13 @@ async function addDepartment() {
 async function addRole() {
     const ans = await inquirer.prompt(newRolePrompts);
     console.log(ans);
-    await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.departmentId]);
+    await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.department]);
 }
 
 async function addEmployee() {
     const ans = await inquirer.prompt(newEmployeePrompts);
     console.log(ans);
-    await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.roleId, ans.managerId]);
+    await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.role, ans.manager]);
 }
 
 async function updateRole() {
@@ -346,9 +379,10 @@ async function removeEmployee() {
 }
 
 async function launch() {
-    const ans = await inquirer.prompt(rootPrompt);
+    //Ask root prompt
+    const { rootSelection } = await inquirer.prompt(rootPrompt);
 
-    switch (ans) {
+    switch (rootSelection) {
         case 'View all departments':
             await viewAllDepartments();
             break;
@@ -356,7 +390,16 @@ async function launch() {
             await viewAllRoles();
             break;
         case 'View all employees':
-            await viewAllEmployees();
+            const { sortBy } = await inquirer.prompt(sortEmployeesByPrompt);
+            if(sortBy === 'Department') {
+                await viewEmployeesByDepartment();
+            }
+            else if(sortBy === 'Manager') {
+                await viewEmployeesByManager();
+            }
+            else {
+                await viewAllEmployees();
+            }
             break;
         case 'Add a department':
             await addDepartment();
@@ -385,9 +428,12 @@ async function launch() {
         default:
             console.log('Goodbye.');
             process.exitCode = 0;
+            return;
             break;
     }
-    return launch();
+    await inquirer.prompt(continuePrompt);
+    await launch();
+    return;
 }
 
 launch();

@@ -282,6 +282,14 @@ const removeEmployeePrompt = [
     }
 ]
 
+const continuePrompt = [
+    {
+        type: 'input',
+        name: 'continue',
+        message: 'Press enter to continue.',
+    },
+]
+
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results[0]);

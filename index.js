@@ -59,11 +59,11 @@ const newRolePrompts = [
     {
         type: 'list',
         name: 'department',
-        message: "What departments is the new role in?",
+        message: "What department is the new role in?",
         choices: async function () {
             //get list of departments
             let options = [];
-            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            const departments = await con.promise().query('SELECT department.id, department.name FROM department');
             await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,
@@ -231,7 +231,7 @@ const removeDepartmentPrompt = [
         choices: async function () {
             //get list of departments
             let options = [];
-            const departments = await con.promise().query('SELECT department.id, depatment.name FROM department');
+            const departments = await con.promise().query('SELECT department.id, department.name FROM department');
             await departments[0].forEach(async function (department) {
                 let option = {
                     name: department.name,

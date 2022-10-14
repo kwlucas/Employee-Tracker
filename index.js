@@ -390,7 +390,16 @@ async function launch() {
             await viewAllRoles();
             break;
         case 'View all employees':
-            await viewAllEmployees();
+            const { sortBy } = await inquirer.prompt(sortEmployeesByPrompt);
+            if(sortBy === 'Department') {
+                await viewEmployeesByDepartment();
+            }
+            else if(sortBy === 'Manager') {
+                await viewEmployeesByManager();
+            }
+            else {
+                await viewAllEmployees();
+            }
             break;
         case 'Add a department':
             await addDepartment();

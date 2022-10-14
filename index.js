@@ -1,6 +1,6 @@
-const mysql = require('mysql2');
 const inquirer = require("inquirer");
-const cTable = require('console.table');
+//const cTable = require('console.table');
+require('console.table');
 const con = require("./db/connection");
 
 const rootPrompt = [
@@ -9,6 +9,7 @@ const rootPrompt = [
         name: 'rootSelection',
         message: "Select an action.",
         choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager', 'Remove a department', 'Remove a role', 'Remove an employee', 'Exit'],
+        default: 0
     }
 ]
 
@@ -346,9 +347,10 @@ async function removeEmployee() {
 }
 
 async function launch() {
-    const ans = await inquirer.prompt(rootPrompt);
+    //Ask root prompt
+    const { rootSelection } = await inquirer.prompt(rootPrompt);
 
-    switch (ans) {
+    switch (rootSelection) {
         case 'View all departments':
             await viewAllDepartments();
             break;
@@ -385,6 +387,7 @@ async function launch() {
         default:
             console.log('Goodbye.');
             process.exitCode = 0;
+            return;
             break;
     }
     await launch();

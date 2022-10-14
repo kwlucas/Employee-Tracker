@@ -118,6 +118,7 @@ const newEmployeePrompts = [
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -136,6 +137,7 @@ const newEmployeePrompts = [
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -175,6 +177,7 @@ const updateRolePrompts = [
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -214,6 +217,7 @@ const updateManagerPrompts = [
                 }
                 options.push(option);
             })
+            options.push({ name: 'None', value: null });
             return options;
         },
     },
@@ -315,13 +319,13 @@ async function addDepartment() {
 async function addRole() {
     const ans = await inquirer.prompt(newRolePrompts);
     console.log(ans);
-    await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.departmentId]);
+    await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.department]);
 }
 
 async function addEmployee() {
     const ans = await inquirer.prompt(newEmployeePrompts);
     console.log(ans);
-    await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.roleId, ans.managerId]);
+    await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.role, ans.manager]);
 }
 
 async function updateRole() {

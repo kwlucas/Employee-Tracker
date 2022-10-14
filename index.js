@@ -284,17 +284,17 @@ const removeEmployeePrompt = [
 
 async function viewAllDepartments() {
     const results = await con.promise().query('SELECT department.* FROM department');
-    console.table(results);
+    console.table(results[0]);
 }
 
 async function viewAllRoles() {
     const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name FROM role JOIN departments ON role.department_id = department.id');
-    console.table(results);
+    console.table(results[0]);
 }
 
 async function viewAllEmployees() {
-    const results = await con.promise().query('SELECT employee.id employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
-    console.table(results);
+    const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON employee.department_id = department.id JOIN employee manager on manager.id = employee.manager_id');
+    console.table(results[0]);
 }
 
 async function addDepartment() {

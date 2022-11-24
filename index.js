@@ -305,83 +305,101 @@ const continuePrompt = [
 ]
 
 async function viewAllDepartments() {
+    //Get all departments
     const results = await con.promise().query('SELECT department.* FROM department');
     console.table(results[0]);
 }
 
 async function viewAllRoles() {
+    //get all roles and the names of the coresponding departments
     const results = await con.promise().query('SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id');
     console.table(results[0]);
 }
 
 async function viewAllEmployees() {
+    //get all employees with their coresponding manager's full name, role's salary and department name
     const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id');
     console.table(results[0]);
 }
 
 async function viewEmployeesByDepartment() {
+    //get all employees with their coresponding manager's full name, role's salary and department name sort them all by their departments
     const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY department');
     console.table(results[0]);
 }
 
 async function viewEmployeesByManager() {
+    //get all employees with their coresponding manager's full name, role's salary and department name sort them all by their manager
     const results = await con.promise().query('SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department, CONCAT(manager.first_name, " ", manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id ORDER BY manager');
     console.table(results[0]);
 }
 
 async function addDepartment() {
+    //Ask for department name
     const ans = await inquirer.prompt(newDepartmentPrompt);
     console.log(ans);
+    //Create new department with the input name
     await con.promise().query('INSERT INTO department (name) VALUES (?)', [ans.name]);
 
 }
 
 async function addRole() {
+    //Ask the new role prompts
     const ans = await inquirer.prompt(newRolePrompts);
     console.log(ans);
+    //Create new roles with user reponse to prompts
     await con.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [ans.title, ans.salary, ans.department]);
 }
 
 async function addEmployee() {
+    //Ask new employee prompts
     const ans = await inquirer.prompt(newEmployeePrompts);
     console.log(ans);
+    //Create new employee with responses to prompts
     await con.promise().query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [ans.firstName, ans.lastName, ans.role, ans.manager]);
 }
 
 async function updateRole() {
+    //Ask update employee role prompts
     const ans = await inquirer.prompt(updateRolePrompts);
     console.log(ans);
+    //Update the selected employee to have the selected role
     await con.promise().query('UPDATE employee SET role_id = ?  WHERE id = ?', [ans.role, ans.employee]);
 }
 
 async function updateManager() {
+    //Ask update employee manager prompts
     const ans = await inquirer.prompt(updateManagerPrompts);
     console.log(ans);
+    //Update the selected employee to have the selected manager
     await con.promise().query('UPDATE employee SET manager_id = ?  WHERE id = ?', [ans.manager, ans.employee]);
 }
 
 async function removeDepartment() {
     const ans = await inquirer.prompt(removeDepartmentPrompt);
     console.log(ans);
+    //Delete the selected department
     await con.promise().query('DELETE FROM department WHERE id = ?', [ans.department]);
 }
 
 async function removeRole() {
     const ans = await inquirer.prompt(removeRolePrompt);
     console.log(ans);
+    //Delete the selected role
     await con.promise().query('DELETE FROM role WHERE id = ?', [ans.role]);
 }
 
 async function removeEmployee() {
     const ans = await inquirer.prompt(removeEmployeePrompt);
     console.log(ans);
+    //Delete the selected employee
     await con.promise().query('DELETE FROM employee WHERE id = ?', [ans.employee]);
 }
 
 async function launch() {
     //Ask root prompt
     const { rootSelection } = await inquirer.prompt(rootPrompt);
-
+    //Switch statement based on response to root prompt
     switch (rootSelection) {
         case 'View all departments':
             await viewAllDepartments();
@@ -390,6 +408,7 @@ async function launch() {
             await viewAllRoles();
             break;
         case 'View all employees':
+            //Prompt for sorting employees
             const { sortBy } = await inquirer.prompt(sortEmployeesByPrompt);
             if(sortBy === 'Department') {
                 await viewEmployeesByDepartment();
@@ -431,7 +450,9 @@ async function launch() {
             return;
             break;
     }
+    //"Press enter to continue" prompt
     await inquirer.prompt(continuePrompt);
+    //Loop
     await launch();
     return;
 }

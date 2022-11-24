@@ -23,9 +23,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-![Demo Image](./assets/images/preview1.PNG)
-
 Keeping track of all the departments, roles, and employees within an organization can be difficult. The employee tracker simplifies the entire process into a single application.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -67,15 +64,31 @@ Keeping track of all the departments, roles, and employees within an organizatio
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Run NPM start in the console to start the application
-    ```sh
-    npm start
-    ```
+Run ```npm start``` in the console to start the application.
+
 Select an option displayed in the console.
+
+Selecting "View all departments/roles/employees" will display all the items of the selected type.
+
+When you select "View all employees" You are prompted to select them by id, department, or manager. This will decide how the results will be sorted.
 
 ![Demo Gif](./assets/images/demo1.gif)
 
+When you select "Add a department" the app will prompt you for the name of the new department before adding it to the data.
+
+When you select "Add a role" you will be prompted for the name, salary, and department of the new role. Once you have responded to the prompts the new role will be added to the data.
+
+When you select "Add an employee" the app will prompt you for the first name, last name, role, and manager of the new employee before adding the employee to the data.
+
 ![Demo Gif](./assets/images/demo2.gif)
+
+When you select "Remove a department/role/employee" the app will give you a list of all the existing items of that type. After you select an item it will be removed from the data.
+
+When you select "Update an employee's role" you will be prompted to choose an existing employee. Once selected you are then prompted to select a role. Once done the employee's role is changed.
+
+When you select "Update an employee's manager" you will be prompted to choose an existing employee. Once selected you are then prompted to select another employee to set as their new manager. Once done the employee's manager is changed.
+
+![Demo Gif](./assets/images/demo3.gif)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

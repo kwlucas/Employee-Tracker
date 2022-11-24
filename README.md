@@ -76,9 +76,9 @@ When you select "View all employees" You are prompted to select them by id, depa
 
 When you select "Add a department" the app will prompt you for the name of the new department before adding it to the data.
 
-When you select "Add a role" you will be prompted for the name, salary, and department of the new role. Once you have entered all the reponses the new role will be added to the data.
+When you select "Add a role" you will be prompted for the name, salary, and department of the new role. Once you have responded to the prompts the new role will be added to the data.
 
-When you select "Add an employee" the app will prompt you for the first name, last name, role, and manager of the new employee befire adding the employee to the data.
+When you select "Add an employee" the app will prompt you for the first name, last name, role, and manager of the new employee before adding the employee to the data.
 
 ![Demo Gif](./assets/images/demo2.gif)
 
